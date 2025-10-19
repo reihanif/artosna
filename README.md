@@ -16,7 +16,7 @@ Built with **Vue 3**, **Vuetify**, and **Supabase**, it offers a smooth and eleg
 ## 🖼️ Preview
 
 ![Artosna Screenshot](public/preview.png)  
-<sub>*Example preview — replace with your own screenshot or app banner.*</sub>
+<sub>*Dashboard preview of artosna.*</sub>
 
 ---
 
