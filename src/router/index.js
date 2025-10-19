@@ -90,13 +90,8 @@ router.beforeEach(async (to, from, next) => {
   const isPhone = deviceType === 'phone'
 
   // Handle root path redirect
-  if (to.path === '/') {
-    if (isAuthenticated) {
-      next({ path: isPhone ? '/mobile' : '/app' })
-      return
-    }
-    // If not authenticated, redirect to login
-    next({ path: '/login' })
+  if (to.path === '/' && isAuthenticated) {
+    next({ path: isPhone ? '/mobile' : '/app' })
     return
   }
 
