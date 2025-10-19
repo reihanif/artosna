@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
 
   const router = useRouter()
@@ -17,6 +17,12 @@
     transactionsSheet.value = false
     slotKey.value += 1
   }
+
+  watch(() => route.path, newRoute => {
+    if (newRoute) {
+      navigation.value = newRoute
+    }
+  }, { immediate: true })
 </script>
 
 <template>
