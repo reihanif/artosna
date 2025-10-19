@@ -3,11 +3,11 @@
     v-if="showInstallBanner"
     class="fixed bottom-0 left-0 right-0 z-50"
     color="primary"
-    icon="mdi-download"
+    icon="mdi-tray-arrow-down"
     sticky
   >
     <template #text>
-      <div class="text-sm font-medium">
+      <div class="text-xs">
         Install this app for a better experience
       </div>
     </template>
@@ -21,7 +21,7 @@
         Not now
       </v-btn>
       <v-btn
-        color="white"
+        color="primary"
         size="small"
         variant="text"
         @click="installApp"
