@@ -37,12 +37,12 @@
     </div>
 
     <div class="col-span-2 mt-0 mx-4 content-center space-y-2">
-      <div class="flex justify-between p-2.5 rounded-lg bg-gray-50">
+      <div class="flex justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-gray-900">
         <div class="flex-grow border-e">
           <div class="text-xs">
             Allocation :
           </div>
-          <div class="text-sm font-semibold text-primary-600 dark:text-primary-300">
+          <div class="text-sm font-semibold text-primary-600 dark:text-primary-500">
             {{ props.item.allocation }}
           </div>
         </div>
@@ -50,7 +50,7 @@
           <div class="text-xs">
             Realization :
           </div>
-          <div class="text-sm font-semibold text-primary-600 dark:text-primary-300">
+          <div class="text-sm font-semibold text-primary-600 dark:text-primary-500">
             {{ props.item.realization }}
           </div>
         </div>
@@ -62,8 +62,8 @@
         <div
           class="text-sm font-semibold"
           :class="{
-            'text-primary-600 dark:text-primary-300': !props.item.isOverbudget,
-            'text-red-600 dark:text-red-300': props.item.isOverbudget,
+            'text-primary-600 dark:text-primary-500': !props.item.isOverbudget,
+            'text-red-600 dark:text-red-500': props.item.isOverbudget,
           }"
         >
           {{ props.item.remain }}

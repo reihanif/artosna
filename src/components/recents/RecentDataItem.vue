@@ -57,7 +57,7 @@
 <template>
   <div class="relative grid grid-cols-2 gap-2 py-4 sm:grid-cols-4 lg:grid-cols-5">
     <div class="col-span-2 content-center sm:col-span-4 lg:col-span-1">
-      <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+      <div class="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-700">
         <v-icon icon="mdi-calendar-blank-outline" />
         <p class="font-medium">{{ props.item.date }}</p>
       </div>
@@ -69,9 +69,9 @@
       <span
         class="text-sm font-semibold"
         :class="{
-          'text-primary-600 dark:text-primary-300': props.item.type === 'transfer',
-          'text-red-600 dark:text-red-300': props.item.type === 'expense',
-          'text-green-600 dark:text-green-300': props.item.type === 'income',
+          'text-primary-600 dark:text-primary-500': props.item.type === 'transfer',
+          'text-red-600 dark:text-red-500': props.item.type === 'expense',
+          'text-green-600 dark:text-green-500': props.item.type === 'income',
         }"
       >
         {{ props.item.amount }}

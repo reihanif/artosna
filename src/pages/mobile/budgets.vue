@@ -158,14 +158,14 @@
           Total
           <span>:</span>
         </div>
-        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-300">
+        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
           {{ overview.total }}
         </div>
         <div class="flex justify-between">
           Realization
           <span>:</span>
         </div>
-        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-300">
+        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
           {{ overview.realization }}
         </div>
         <div class="flex justify-between">
@@ -175,8 +175,8 @@
         <div
           class="col-span-2 text-end font-semibold"
           :class="{
-            'text-primary-600 dark:text-primary-300': !overview.isOverbudget,
-            'text-red-600 dark:text-red-300': overview.isOverbudget,
+            'text-primary-600 dark:text-primary-500': !overview.isOverbudget,
+            'text-red-600 dark:text-red-500': overview.isOverbudget,
           }"
         >
           {{ overview.remain }}
@@ -202,7 +202,7 @@
             />
           </div>
           <p class="text-lg font-medium">No Budgets</p>
-          <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-300">You have not created any budgets for {{ monthDisplay }}</p>
+          <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-500">You have not created any budgets for {{ monthDisplay }}</p>
           <v-btn
             color="primary"
             prepend-icon="mdi-plus"

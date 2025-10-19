@@ -44,7 +44,7 @@
   <v-card rounded="lg">
     <v-card-text>
       <v-icon v-if="props.icon" color="primary" :icon="props.icon" :size="props.iconSize" />
-      <h3 class="mt-2 text-sm sm:text-lg text-gray-700 dark:text-gray-200">{{ props.title }}</h3>
+      <h3 class="mt-2 text-sm sm:text-lg text-gray-700 dark:text-gray-500">{{ props.title }}</h3>
       <span class="flex items-center text-base sm:text-xl font-bold text-gray-900 dark:text-white">
         {{ props.value }}
         <span
@@ -60,7 +60,7 @@
           {{ props.badgeText }}
         </span>
       </span>
-      <p class="mt-2 flex gap-1 items-center text-xs sm:text-sm leading-6 text-gray-500 dark:text-gray-400">
+      <p class="mt-2 flex gap-1 items-center text-xs sm:text-sm leading-6 text-gray-500 dark:text-gray-600">
         <v-icon :icon="props.infoIcon" />
         {{ props.infoLabel }}
       </p>
