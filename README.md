@@ -60,9 +60,7 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-# Add your Supabase keys:
-# VITE_SUPABASE_URL=your-url
-# VITE_SUPABASE_ANON_KEY=your-anon-key
+# Add your Supabase keys
 
 # Run in development
 npm run dev
