@@ -1,40 +1,6 @@
-<template>
-  <v-banner
-    v-if="showInstallBanner"
-    class="fixed bottom-0 left-0 right-0 z-[999]"
-    color="primary"
-    icon="mdi-tray-arrow-down"
-    sticky
-  >
-    <template #text>
-      <div class="text-xs">
-        Install this app for a better experience
-      </div>
-    </template>
-
-    <template #actions>
-      <v-btn
-        size="small"
-        variant="text"
-        @click="dismissInstall"
-      >
-        Not now
-      </v-btn>
-      <v-btn
-        size="small"
-        variant="text"
-        @click="installApp"
-      >
-        Install
-      </v-btn>
-    </template>
-  </v-banner>
-</template>
-
 <script setup>
   import { onMounted, onUnmounted, ref } from 'vue'
 
-  const showInstallBanner = ref(false)
   const deferredPrompt = ref(null)
 
   function handleBeforeInstallPrompt (event) {
@@ -43,8 +9,26 @@
 
     // Check if user has dismissed the prompt before
     const isDismissed = localStorage.getItem('pwa-install-dismissed')
-    if (!isDismissed) {
-      showInstallBanner.value = true
+    const dismissedTime = localStorage.getItem('pwa-install-dismissed-time')
+
+    // Show again after 7 days if previously dismissed
+    const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000
+    const shouldShowAgain = dismissedTime && (Date.now() - Number.parseInt(dismissedTime)) > sevenDaysInMs
+
+    if (!isDismissed || shouldShowAgain) {
+      showInstallPrompt()
+    }
+  }
+
+  function showInstallPrompt () {
+    const userResponse = confirm(
+      'Install this app on your device for a better experience and offline access. Would you like to install?',
+    )
+
+    if (userResponse) {
+      installApp()
+    } else {
+      dismissInstall()
     }
   }
 
@@ -53,28 +37,39 @@
       return
     }
 
-    deferredPrompt.value.prompt()
+    try {
+      deferredPrompt.value.prompt()
 
-    const result = await deferredPrompt.value.userChoice
+      const result = await deferredPrompt.value.userChoice
 
-    if (result.outcome === 'accepted') {
-      console.log('PWA installed')
+      if (result.outcome === 'accepted') {
+        console.log('PWA installed successfully')
+        localStorage.removeItem('pwa-install-dismissed')
+        localStorage.removeItem('pwa-install-dismissed-time')
+      } else {
+        console.log('PWA installation declined')
+        dismissInstall()
+      }
+    } catch (error) {
+      console.error('Error during PWA installation:', error)
+    } finally {
+      deferredPrompt.value = null
     }
-
-    deferredPrompt.value = null
-    showInstallBanner.value = false
   }
 
   function dismissInstall () {
-    showInstallBanner.value = false
     localStorage.setItem('pwa-install-dismissed', 'true')
+    localStorage.setItem('pwa-install-dismissed-time', Date.now().toString())
   }
 
   function handleAppInstalled () {
-    showInstallBanner.value = false
     deferredPrompt.value = null
     localStorage.removeItem('pwa-install-dismissed')
+    localStorage.removeItem('pwa-install-dismissed-time')
     console.log('PWA was installed')
+
+    // Optional: Show success message
+    alert('App installed successfully! You can now use it offline.')
   }
 
   onMounted(() => {
