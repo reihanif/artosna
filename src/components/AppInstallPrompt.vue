@@ -1,7 +1,7 @@
 <template>
   <v-banner
     v-if="showInstallBanner"
-    class="fixed bottom-0 left-0 right-0 z-50"
+    class="fixed bottom-0 left-0 right-0 z-[999]"
     color="primary"
     icon="mdi-tray-arrow-down"
     sticky
@@ -21,7 +21,6 @@
         Not now
       </v-btn>
       <v-btn
-        color="primary"
         size="small"
         variant="text"
         @click="installApp"
