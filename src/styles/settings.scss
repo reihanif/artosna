@@ -1,0 +1,11 @@
+/**
+ * src/styles/settings.scss
+ *
+ * Configures SASS variables and Vuetify overwrites
+ */
+
+// https://vuetifyjs.com/features/sass-variables/`
+// Import Vuetify settings
+@use 'vuetify/settings' with (
+  $color-pack: true,
+);
