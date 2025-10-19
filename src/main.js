@@ -4,6 +4,9 @@
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
 
+// Service Worker
+import { registerSW } from 'virtual:pwa-register'
+
 // Composables
 import { createApp } from 'vue'
 
@@ -41,6 +44,25 @@ function hideSplashScreen () {
 }
 
 app.mount('#app')
+
+// Register service worker
+const updateSW = registerSW({
+  onNeedRefresh () {
+    // Show a prompt to user for update
+    if (confirm('New content available. Reload to update?')) {
+      updateSW(true)
+    }
+  },
+  onOfflineReady () {
+    console.log('App is ready to work offline')
+  },
+  onRegistered (registration) {
+    console.log('Service Worker registered:', registration)
+  },
+  onRegisterError (error) {
+    console.error('Service Worker registration error:', error)
+  },
+})
 
 // Wait for router to be ready
 router.isReady().then(() => {
