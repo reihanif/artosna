@@ -1,8 +1,8 @@
 <template>
   <section class="bg-white dark:bg-gray-900">
     <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-      <img alt="dashboard" class="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup.svg">
-      <img alt="dashboard dark" class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg">
+      <img alt="dashboard" class="w-full dark:hidden" src="https://artosna.netlify.app/preview.png">
+      <img alt="dashboard dark" class="w-full hidden dark:block" src="https://artosna.netlify.app/preview.png">
       <div class="mt-4 md:mt-0">
         <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
           Your finances, beautifully organized
