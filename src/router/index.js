@@ -62,6 +62,13 @@ const router = createRouter({
   routes,
 })
 
+function isPwaInstalled () {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true
+  )
+}
+
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const deviceType = detectDeviceType()
@@ -88,6 +95,12 @@ router.beforeEach(async (to, from, next) => {
   const isDesktopOnlyRoute = matchesRoute(to.path, desktopOnlyRoutes)
   const isMobileOnlyRoute = matchesRoute(to.path, mobileOnlyRoutes)
   const isPhone = deviceType === 'phone'
+
+  // Handle if PWA installed
+  if (to.path === '/' && isPwaInstalled()) {
+    next({ path: '/login' })
+    return
+  }
 
   // Handle root path redirect
   if (to.path === '/' && isAuthenticated) {
