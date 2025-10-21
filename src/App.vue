@@ -48,10 +48,5 @@
       <router-view />
     </component>
     <app-confirmation />
-
-    <!-- PWA Components -->
-    <app-install-prompt />
-    <app-update-prompt />
-    <app-offline-indicatior />
   </div>
 </template>

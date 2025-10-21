@@ -92,14 +92,14 @@
           <v-avatar>
             <v-img
               alt="avatar"
-              :src="`https://ui-avatars.com/api/?name=${authStore.user.displayName}&format=svg&background=E8EAF6`"
+              :src="`https://ui-avatars.com/api/?name=${authStore.user?.user_metadata.display_name}&format=svg&background=E8EAF6`"
             />
           </v-avatar>
           <v-menu activator="parent" :close-on-content-click="false" min-width="200px">
             <v-card class="shadow-2xl">
               <v-card-text>
                 <div class="mx-auto text-center">
-                  <h3 class="font-semibold">{{ authStore.user.user_metadata.display_name }}</h3>
+                  <h3 class="font-semibold">{{ authStore.user?.user_metadata.display_name }}</h3>
                   <p class="text-caption text-primary-500 mt-1">
                     {{ authStore.user.email }}
                   </p>

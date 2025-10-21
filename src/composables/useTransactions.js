@@ -244,6 +244,10 @@ export function useTransactions () {
    */
   async function loadInitialTransactions () {
     await initializeInfiniteScroll()
+    // Load the first page of data
+    return new Promise(resolve => {
+      loadMoreTransactions({ done: status => resolve(status) })
+    })
   }
 
   return {
