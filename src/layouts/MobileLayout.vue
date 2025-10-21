@@ -10,6 +10,10 @@
   const slotKey = ref(0)
 
   function onNavigate (value) {
+    if (value === '/mobile') {
+      router.replace(value)
+      return
+    }
     router.push(value)
   }
 

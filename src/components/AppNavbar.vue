@@ -56,6 +56,7 @@
   }
 
   function handleLogoClick () {
+    if (isMobile.value) return
     router.push('/')
   }
 
@@ -83,7 +84,11 @@
         'text-right': props.logoPosition === 'right',
       }"
     >
-      <app-logo class="cursor-pointer" :size="isMobile ? 'small' : 'default'" @click="handleLogoClick" />
+      <app-logo
+        :class="{ 'cursor-pointer': !isMobile }"
+        :size="isMobile ? 'small' : 'default'"
+        @click="handleLogoClick"
+      />
     </v-app-bar-title>
 
     <div v-if="props.authButton" class="me-4">
