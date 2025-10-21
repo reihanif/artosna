@@ -112,7 +112,7 @@
 
     if (!result.error) {
       budgetDialog.show = false
-      formOptions.budget = await options.fetchBudgetOptions(newDate)
+      formOptions.budget = await options.fetchBudgetOptions(formData.date)
     }
   }
 </script>
