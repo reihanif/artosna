@@ -136,7 +136,7 @@
 
 <template>
   <v-pull-to-refresh
-    class="min-h-dvh"
+    class="min-h-full"
     :pull-down-threshold="48"
     @load="handlePullRefresh"
   >

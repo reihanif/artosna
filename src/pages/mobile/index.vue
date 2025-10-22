@@ -114,6 +114,11 @@
     formOptions.budget = await options.fetchBudgetOptions(date)
   }
 
+  async function handlePullRefresh ({ done }) {
+    await loadInitialTransactions()
+    done('ok')
+  }
+
   onMounted(async () => {
     formOptions.pocket = await options.fetchWalletOptions()
     formOptions.category = await options.fetchCategoryOptions('income')
@@ -122,46 +127,44 @@
 </script>
 
 <template>
-  <div>
-    <v-pull-to-refresh
-      class="min-h-dvh"
-      :pull-down-threshold="48"
-      @load="loadInitialTransactions"
+  <v-pull-to-refresh
+    class="min-h-full"
+    :pull-down-threshold="48"
+    @load="handlePullRefresh"
+  >
+    <template #pullDownPanel>
+      <div class="flex justify-center items-center py-2">
+        <v-progress-circular color="primary" indeterminate />
+      </div>
+    </template>
+    <v-infinite-scroll
+      color="primary"
+      empty-text=""
+      :items="infiniteScroll.items"
+      mode="intersect"
+      @load="loadMoreTransactions"
     >
-      <template #pullDownPanel>
-        <div class="flex justify-center items-center py-2">
-          <v-progress-circular color="primary" indeterminate />
+      <template v-if="!infiniteScroll.loading && infiniteScroll.items.length === 0">
+        <div class="mt-40 text-center min-h-screen">
+          <div class="flex justify-center">
+            <v-img
+              alt="no-data"
+              aspect-ratio="1/1"
+              class="mx-auto"
+              :height="200"
+              src="@/assets/illustrations/no-data.svg"
+            />
+          </div>
+          <p class="text-lg font-medium">No Transactions</p>
+          <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-500">You have not created any transactions</p>
         </div>
       </template>
-      <v-infinite-scroll
-        color="primary"
-        empty-text=""
-        :items="infiniteScroll.items"
-        mode="intersect"
-        @load="loadMoreTransactions"
-      >
-        <template v-if="!infiniteScroll.loading && infiniteScroll.items.length === 0">
-          <div class="text-center">
-            <div class="flex justify-center">
-              <v-img
-                alt="no-data"
-                aspect-ratio="1/1"
-                class="mx-auto"
-                :height="200"
-                src="@/assets/illustrations/no-data.svg"
-              />
-            </div>
-            <p class="text-lg font-medium">No Transactions</p>
-            <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-500">You have not created any transactions</p>
-          </div>
-        </template>
-        <template v-for="(item, index) in infiniteScroll.items" :key="index">
-          <v-card class="rounded-none px-2 mb-1">
-            <recent-data-item :item="item" @delete="handleDelete(item)" @edit="handleEdit(item)" />
-          </v-card>
-        </template>
-      </v-infinite-scroll>
-    </v-pull-to-refresh>
+      <template v-for="(item, index) in infiniteScroll.items" :key="index">
+        <v-card class="rounded-none px-2 mb-1">
+          <recent-data-item :item="item" @delete="handleDelete(item)" @edit="handleEdit(item)" />
+        </v-card>
+      </template>
+    </v-infinite-scroll>
 
     <expense-form-sheet
       v-if="dialog.transaction === 'expense'"
@@ -200,5 +203,5 @@
       @close="handleClose"
       @submit="handleSubmit"
     />
-  </div>
+  </v-pull-to-refresh>
 </template>

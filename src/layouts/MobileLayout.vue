@@ -35,7 +35,7 @@
     <app-navbar :auth-button="false" :logo-position="'center'" :sidebar-toggle="false" />
 
     <v-main class="d-flex justify-center min-h-dvh">
-      <div class="sm:p-6 w-full bg-gray-50 dark:bg-gray-900">
+      <div class="sm:p-6 w-full bg-gray-50 dark:bg-gray-900 min-h-full">
         <slot :key="slotKey" />
       </div>
     </v-main>
