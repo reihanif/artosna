@@ -7,6 +7,9 @@
 // Composables
 import { createVuetify } from 'vuetify'
 
+// Components
+import { VPullToRefresh } from 'vuetify/labs/VPullToRefresh'
+
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
@@ -52,6 +55,9 @@ export default createVuetify({
         },
       },
     },
+  },
+  components: {
+    VPullToRefresh,
   },
   defaults: {
     VDataTable: {

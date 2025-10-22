@@ -110,11 +110,20 @@
     overview.isOverbudget = remainBudgetsValue < 0
   }
 
-  onMounted(async () => {
+  async function setMounted () {
     await setOverview(monthValue.value)
     await fetchBudgetsWithTransactionsByMonthNoPagination(monthValue.value)
     formOptions.wallet = await options.fetchWalletOptions()
     formOptions.category = await options.fetchCategoryOptions('expense')
+  }
+
+  async function handlePullRefresh ({ done }) {
+    await setMounted()
+    done('ok')
+  }
+
+  onMounted(async () => {
+    setMounted()
   })
 
   watch(() => monthValue.value, async newMonth => {
@@ -126,104 +135,115 @@
 </script>
 
 <template>
-  <div class="space-y-6 mb-6">
-    <v-card class="space-y-4 px-4 pb-4">
-      <div class="min-w-64">
-        <v-text-field
-          v-model="monthDisplay"
-          autocomplete="off"
-          density="compact"
-          hide-details="auto"
-          prepend-inner-icon="mdi-calendar-range"
-          readonly
-          variant="outlined"
-          @click="monthPicker = true"
-        />
-        <app-month-picker v-model="monthPicker" v-model:selected-date="monthValue" />
+  <v-pull-to-refresh
+    class="min-h-dvh"
+    :pull-down-threshold="48"
+    @load="handlePullRefresh"
+  >
+    <template #pullDownPanel>
+      <div class="flex justify-center items-center py-2">
+        <v-progress-circular color="primary" indeterminate />
       </div>
-      <v-btn
-        v-if="tables.totalItems > 0"
-        block
-        color="primary"
-        prepend-icon="mdi-plus"
-        size="default"
-        type="submit"
-        variant="outlined"
-        @click="handleCreate"
-      >
-        Add Budget
-      </v-btn>
-      <div class="grid grid-cols-3">
-        <div class="flex justify-between">
-          Total
-          <span>:</span>
-        </div>
-        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
-          {{ overview.total }}
-        </div>
-        <div class="flex justify-between">
-          Realization
-          <span>:</span>
-        </div>
-        <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
-          {{ overview.realization }}
-        </div>
-        <div class="flex justify-between">
-          Remain
-          <span>:</span>
-        </div>
-        <div
-          class="col-span-2 text-end font-semibold"
-          :class="{
-            'text-primary-600 dark:text-primary-500': !overview.isOverbudget,
-            'text-red-600 dark:text-red-500': overview.isOverbudget,
-          }"
-        >
-          {{ overview.remain }}
-        </div>
-      </div>
-    </v-card>
-
-    <div>
-      <template v-if="tables.loading">
-        <div class="flex justify-center">
-          <v-progress-circular color="primary" indeterminate />
-        </div>
-      </template>
-      <template v-else-if="tables.totalItems === 0">
-        <div class="text-center">
-          <div class="flex justify-center">
-            <v-img
-              alt="no-data"
-              aspect-ratio="1/1"
-              class="mx-auto"
-              :height="200"
-              src="@/assets/illustrations/no-data.svg"
-            />
-          </div>
-          <p class="text-lg font-medium">No Budgets</p>
-          <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-500">You have not created any budgets for {{ monthDisplay }}</p>
-          <v-btn
-            color="primary"
-            prepend-icon="mdi-plus"
-            size="default"
-            type="submit"
-            variant="flat"
-            @click="handleCreate"
-          >
-            Add Budget
-          </v-btn>
-        </div>
-      </template>
-      <template v-else>
-        <v-card v-for="(item, index) in tables.items" :key="index" class="rounded-none mb-1 px-2">
-          <report-data-item
-            :item="item"
-            @delete="handleDelete(item)"
-            @edit="handleEdit(item)"
+    </template>
+    <div class="space-y-6 mb-6">
+      <v-card class="space-y-4 px-4 pb-4">
+        <div class="min-w-64">
+          <v-text-field
+            v-model="monthDisplay"
+            autocomplete="off"
+            density="compact"
+            hide-details="auto"
+            prepend-inner-icon="mdi-calendar-range"
+            readonly
+            variant="outlined"
+            @click="monthPicker = true"
           />
-        </v-card>
-      </template>
+          <app-month-picker v-model="monthPicker" v-model:selected-date="monthValue" />
+        </div>
+        <v-btn
+          v-if="tables.totalItems > 0"
+          block
+          color="primary"
+          prepend-icon="mdi-plus"
+          size="default"
+          type="submit"
+          variant="outlined"
+          @click="handleCreate"
+        >
+          Add Budget
+        </v-btn>
+        <div class="grid grid-cols-3">
+          <div class="flex justify-between">
+            Total
+            <span>:</span>
+          </div>
+          <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
+            {{ overview.total }}
+          </div>
+          <div class="flex justify-between">
+            Realization
+            <span>:</span>
+          </div>
+          <div class="col-span-2 text-end font-semibold text-primary-600 dark:text-primary-500">
+            {{ overview.realization }}
+          </div>
+          <div class="flex justify-between">
+            Remain
+            <span>:</span>
+          </div>
+          <div
+            class="col-span-2 text-end font-semibold"
+            :class="{
+              'text-primary-600 dark:text-primary-500': !overview.isOverbudget,
+              'text-red-600 dark:text-red-500': overview.isOverbudget,
+            }"
+          >
+            {{ overview.remain }}
+          </div>
+        </div>
+      </v-card>
+
+      <div>
+        <template v-if="tables.loading">
+          <div class="flex justify-center">
+            <v-progress-circular color="primary" indeterminate />
+          </div>
+        </template>
+        <template v-else-if="tables.totalItems === 0">
+          <div class="text-center">
+            <div class="flex justify-center">
+              <v-img
+                alt="no-data"
+                aspect-ratio="1/1"
+                class="mx-auto"
+                :height="200"
+                src="@/assets/illustrations/no-data.svg"
+              />
+            </div>
+            <p class="text-lg font-medium">No Budgets</p>
+            <p class="px-8 mb-6 text-sm text-gray-600 dark:text-gray-500">You have not created any budgets for {{ monthDisplay }}</p>
+            <v-btn
+              color="primary"
+              prepend-icon="mdi-plus"
+              size="default"
+              type="submit"
+              variant="flat"
+              @click="handleCreate"
+            >
+              Add Budget
+            </v-btn>
+          </div>
+        </template>
+        <template v-else>
+          <v-card v-for="(item, index) in tables.items" :key="index" class="rounded-none mb-1 px-2">
+            <report-data-item
+              :item="item"
+              @delete="handleDelete(item)"
+              @edit="handleEdit(item)"
+            />
+          </v-card>
+        </template>
+      </div>
     </div>
 
     <budget-form-sheet
@@ -236,5 +256,5 @@
       @close="handleClose"
       @submit="handleSubmit"
     />
-  </div>
+  </v-pull-to-refresh>
 </template>

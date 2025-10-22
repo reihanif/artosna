@@ -12,6 +12,7 @@
   function onNavigate (value) {
     if (value === '/mobile') {
       router.replace(value)
+      console.log(route)
       return
     }
     router.push(value)
