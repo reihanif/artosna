@@ -23,6 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
   const phoneNumber = computed(() => userMetadata.value.phone_number || '')
   const dateOfBirth = computed(() => userMetadata.value.date_of_birth || '')
   const profilePicture = computed(() => userMetadata.value.profile_picture || '')
+  const avatarUrl = computed(() => userMetadata.value.avatar_url || `https://ui-avatars.com/api/?name=${userMetadata.value.display_name}&format=svg&background=E8EAF6`)
   const bio = computed(() => userMetadata.value.bio || '')
 
   // Actions
@@ -114,6 +115,28 @@ export const useAuthStore = defineStore('auth', () => {
       return null
     } finally {
       loading.value = false
+    }
+  }
+
+  const signInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      })
+
+      if (error) {
+        throw error
+      }
+    } catch (error) {
+      console.error('Error signing in with Google:', error.message)
+      throw error
     }
   }
 
@@ -363,12 +386,14 @@ export const useAuthStore = defineStore('auth', () => {
     phoneNumber,
     dateOfBirth,
     profilePicture,
+    avatarUrl,
     bio,
 
     // Actions
     initializeAuth,
     register,
     login,
+    signInWithGoogle,
     logout,
     resetPassword,
     updatePassword,

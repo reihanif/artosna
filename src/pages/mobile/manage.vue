@@ -77,7 +77,7 @@
             <v-avatar size="x-large">
               <v-img
                 alt="avatar"
-                :src="`https://ui-avatars.com/api/?name=${authStore.user.email.split('@')[0]}&format=svg&background=E8EAF6`"
+                :src="authStore.avatarUrl"
               />
             </v-avatar>
           </div>

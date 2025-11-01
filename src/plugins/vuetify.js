@@ -84,7 +84,7 @@ export default createVuetify({
       elevation: 0,
     },
     VBtn: {
-      class: 'text-none tracking-wider',
+      class: 'text-none tracking-normal',
     },
     VDivider: {
       class: 'dark:border-gray-800',
