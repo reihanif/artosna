@@ -19,11 +19,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   // User metadata getters
   const userMetadata = computed(() => user.value?.user_metadata || {})
-  const displayName = computed(() => userMetadata.value.display_name || '')
+  const displayName = computed(() => userMetadata.value.display_name || userMetadata.value.full_name || '')
   const phoneNumber = computed(() => userMetadata.value.phone_number || '')
   const dateOfBirth = computed(() => userMetadata.value.date_of_birth || '')
   const profilePicture = computed(() => userMetadata.value.profile_picture || '')
-  const avatarUrl = computed(() => userMetadata.value.avatar_url || `https://ui-avatars.com/api/?name=${userMetadata.value.display_name}&format=svg&background=E8EAF6`)
+  const avatarUrl = computed(() => userMetadata.value.avatar_url || `https://ui-avatars.com/api/?name=${displayName.value}&format=svg&background=E8EAF6`)
   const bio = computed(() => userMetadata.value.bio || '')
 
   // Actions

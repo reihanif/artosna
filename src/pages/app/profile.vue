@@ -64,7 +64,6 @@
 <template>
   <div class="space-y-6">
     <h1 class="text-2xl font-bold">My Profile</h1>
-
     <v-card>
       <v-card-text>
         <div class="flex items-center gap-4">

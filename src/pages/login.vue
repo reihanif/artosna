@@ -91,7 +91,7 @@
               <v-btn
                 block
                 class="border"
-                :loading="authStore.loading"
+                :readonly="authStore.loading"
                 size="large"
                 variant="flat"
                 @click="handleGoogleSignIn"
