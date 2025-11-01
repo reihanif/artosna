@@ -97,7 +97,7 @@
           <v-avatar>
             <v-img
               alt="avatar"
-              :src="`https://ui-avatars.com/api/?name=${authStore.user?.user_metadata.display_name}&format=svg&background=E8EAF6`"
+              :src="authStore.avatarUrl"
             />
           </v-avatar>
           <v-menu activator="parent" :close-on-content-click="false" min-width="200px">
